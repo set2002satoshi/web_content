@@ -1,0 +1,37 @@
+version: "3"
+services:
+  # front:
+  #   build:
+  #     context: .
+  #     dockerfile: ./frontend/Dockerfile
+  #   container_name: front-react
+  #   tty: true
+  #   volumes:
+  #   - ./frontend:/app/front
+  #   command: sh -c "cd /app/front/myapp && yarn install  && yarn start"
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #    - backend
+  backend:
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+    container_name: go-api
+    stdin_open: true
+    volumes:
+      - ./backend:/go/app/src
+    ports:
+     - 8000:8080
+    depends_on:
+     - mysql
+  mysql:
+    image: mysql:8.0
+    container_name: MySQL
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: main
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: pass
