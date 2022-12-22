@@ -20,7 +20,7 @@ services:
     container_name: go-api
     stdin_open: true
     volumes:
-      - ./backend:/go/app/src
+      - ./api:/go/app/src
     ports:
      - 8000:8080
     depends_on:
