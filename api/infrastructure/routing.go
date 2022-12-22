@@ -1,7 +1,11 @@
 package infrastructure
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
+
+	sc "github.com/set2002satoshi/web_contents/api/interfaces/controllers/student"
 )
 
 type Routing struct {
@@ -21,6 +25,20 @@ func NewRouting(db *DB) *Routing {
 }
 
 func (r *Routing) setRouting() {
+
+	studentController := sc.NewStudentController(r.DB)
+
+
+	r.Gin.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"message": "hello world"})
+	})
+
+
+	student := r.Gin.Group("/api")
+	{
+		student.POST("/create",func(c *gin.Context) {studentController.Create(c)})
+	}
+
 
 }
 

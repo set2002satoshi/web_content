@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/set2002satoshi/webContents/api/infrastructure"
+	"github.com/set2002satoshi/web_contents/api/infrastructure"
 )
 
 

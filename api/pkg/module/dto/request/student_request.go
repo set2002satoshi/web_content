@@ -5,6 +5,8 @@ type (
 		Id int `json:"id"`
 	}
 	ActiveStudentCreateRequest struct {
+		Email string `json:"email"`
+		Password string `json:"password"`
 		Class string `json:"class"`
 		Name  string `json:"name"`
 	}
