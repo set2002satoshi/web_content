@@ -37,6 +37,7 @@ func (r *Routing) setRouting() {
 	student := r.Gin.Group("/api")
 	{
 		student.POST("/create",func(c *gin.Context) {studentController.Create(c)})
+		student.POST("/find/byId", func(c *gin.Context) {studentController.FindById(c)})
 	}
 
 
