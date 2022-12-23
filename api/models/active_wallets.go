@@ -46,3 +46,18 @@ func (aw *ActiveWallet) setCoin(coin uint) error {
 	aw.Coin += coin
 	return nil
 }
+
+
+
+func (aw *ActiveWallet) GetActiveWalletId() types.IDENTIFICATION {
+	return aw.ActiveWalletId
+}
+
+func (aw *ActiveWallet) GetActiveStudentUserId() types.IDENTIFICATION {
+	return aw.ActiveStudentUserId
+}
+
+func (aw *ActiveWallet) GetCoin() uint {
+	return aw.Coin
+	
+}

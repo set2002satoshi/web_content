@@ -1,22 +1,27 @@
 package response
 
+import (
+	"github.com/set2002satoshi/web_contents/api/models"
+	"github.com/set2002satoshi/web_contents/api/pkg/module/types"
+)
+
 type (
-	FindByIDActiveUserResponse struct {
-		Result *ActiveUserResult `json:"result"`
+	FindAllActiveStudentUserResponse struct {
+		Result *ActiveStudentUserResults `json:"result"`
 
 		CodeErr error  `json:"error"`
 		MsgErr  string `json:"msg"`
 	}
 
-	CreateActiveUserResponse struct {
-		Result *ActiveUserResult `json:"results"`
+	FindByIDActiveStudentUserResponse struct {
+		Result *ActiveStudentUserResult `json:"result"`
 
-		CodeErr error  `json:"code"`
+		CodeErr error  `json:"error"`
 		MsgErr  string `json:"msg"`
 	}
 
-	LoginActiveUserResponse struct {
-		Result *LoginUserResult `json:"results"`
+	CreateActiveStudentUserResponse struct {
+		Result *ActiveStudentUserResult `json:"results"`
 
 		CodeErr error  `json:"code"`
 		MsgErr  string `json:"msg"`
@@ -24,18 +29,18 @@ type (
 )
 
 type (
-	ActiveUserResult struct {
-		User *ActiveUserEntity `json:"user"`
+	ActiveStudentUserResult struct {
+		Student *ActiveStudentUserEntity `json:"student"`
 	}
-	ActiveUserResults struct {
-		Users []*ActiveUserEntity `json:"user"`
+	ActiveStudentUserResults struct {
+		Students []*ActiveStudentUserEntity `json:"students"`
 	}
 
-	HistoryUserResult struct {
-		User *HistoryUserEntity `json:"user"`
+	HistoryStudentUserResult struct {
+		Student *HistoryUserEntity `json:"student"`
 	}
-	HistoryUserResults struct {
-		Users []*HistoryUserEntity `json:"user"`
+	HistoryStudentUserResults struct {
+		Students []*HistoryUserEntity `json:"students"`
 	}
 
 	LoginUserResult struct {
@@ -45,21 +50,14 @@ type (
 )
 
 type (
-	ActiveUserEntity struct {
-		ID       int                `json:"id"`
-		Name     string             `json:"name"`
-		Email    string             `json:"email"`
-		Password string             `json:"password"`
-		Blogs    []ActiveBlogEntity `json:"blogs"`
-		Option   Options
+	ActiveStudentUserEntity struct {
+		ActiveStudentUserId types.IDENTIFICATION `gorm:"primaryKey"`
+		Class               string               `gorm:"max:4"`
+		Name                string               `gorm:"max:16"`
+		Wallet              *models.ActiveWallet
+		ActiveAuth          *models.ActiveStudentAuth
+		Option              Options
 	}
-
 	HistoryUserEntity struct {
-		ID           int    `json:"id"`
-		ActiveUserID int    `json:"active_user_id"`
-		Name         string `json:"name"`
-		Email        string `json:"email"`
-		Password     string `json:"password"`
-		Option       Options
 	}
 )
