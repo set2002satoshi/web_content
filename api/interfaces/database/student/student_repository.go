@@ -29,7 +29,7 @@ func (repo *StudentRepository) FindAll(db *gorm.DB) ([]*models.ActiveStudentUser
 
 
 func (repo *StudentRepository) Create(db *gorm.DB, obj *models.ActiveStudentUser) (*models.ActiveStudentUser, error) {
-	result := db.Create(obj)
+	result := db.Create(&obj)
 	if result.Error != nil {
 		return nil, errors.New("ORM層処理が失敗")
 	}

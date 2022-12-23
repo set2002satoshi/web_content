@@ -13,6 +13,7 @@ type ActiveStudentUser struct {
 	Name                string               `gorm:"max:16"`
 	Wallet              *ActiveWallet
 	ActiveAuth          *ActiveStudentAuth
+	Revision            types.REVISION
 	CreatedAt           time.Time
 	UpdatedAt           time.Time
 }
@@ -23,6 +24,7 @@ func NewActiveStudentUser(
 	name string,
 	auth *ActiveStudentAuth,
 	wallet *ActiveWallet,
+	revision types.REVISION,
 	created_at,
 	updated_at time.Time,
 ) (*ActiveStudentUser, error) {
@@ -33,6 +35,7 @@ func NewActiveStudentUser(
 	err = errors.Combine(err, au.setName(name))
 	err = errors.Combine(err, au.setActiveAuth(auth))
 	err = errors.Combine(err, au.setWallet(wallet))
+	err = errors.Combine(err, au.setRevision(revision))
 	err = errors.Combine(err, au.setCreatedAt(created_at))
 	err = errors.Combine(err, au.setUpdatedAt(updated_at))
 	return au, err
@@ -67,6 +70,11 @@ func (au *ActiveStudentUser) setWallet(obj *ActiveWallet) error {
 	return nil
 }
 
+func (au *ActiveStudentUser) setRevision(obj types.REVISION) error {
+	au.Revision = obj
+	return nil
+}
+
 func (au *ActiveStudentUser) setCreatedAt(created_at time.Time) error {
 	au.CreatedAt = created_at
 	return nil
@@ -75,4 +83,39 @@ func (au *ActiveStudentUser) setCreatedAt(created_at time.Time) error {
 func (au *ActiveStudentUser) setUpdatedAt(updated_at time.Time) error {
 	au.UpdatedAt = updated_at
 	return nil
+}
+
+
+func (au *ActiveStudentUser) GetActiveStudentUserId() types.IDENTIFICATION {
+	return au.ActiveStudentUserId
+}
+
+func (au *ActiveStudentUser) GetClass() string {
+	return au.Class
+	
+}
+
+func (au *ActiveStudentUser) GetName() string {
+	return au.Name
+}
+
+func (au *ActiveStudentUser) GetActiveAuth() *ActiveStudentAuth {
+	return au.ActiveAuth
+	
+}
+
+func (au *ActiveStudentUser) GetWallet() *ActiveWallet {
+	return au.Wallet
+}
+
+func (au *ActiveStudentUser) GetRevision() types.REVISION {
+	return au.Revision
+}
+
+func (au *ActiveStudentUser) GetCreatedAt() time.Time {
+	return au.CreatedAt
+}
+
+func (au *ActiveStudentUser) GetUpdatedAt() time.Time {
+	return au.UpdatedAt
 }

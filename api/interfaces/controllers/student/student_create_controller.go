@@ -6,12 +6,20 @@ import (
 	c "github.com/set2002satoshi/web_contents/api/interfaces/controllers"
 	"github.com/set2002satoshi/web_contents/api/models"
 	"github.com/set2002satoshi/web_contents/api/pkg/module/dto/request"
+	"github.com/set2002satoshi/web_contents/api/pkg/module/dto/response"
 	"github.com/set2002satoshi/web_contents/api/pkg/module/types"
+)
+
+type (
+	CreateActiveStudentUserResponse struct {
+		response.CreateActiveStudentUserResponse
+	}
 )
 
 func (sc *StudentController) Create(ctx c.Context) {
 
 	req := &request.ActiveStudentCreateRequest{}
+	res := &CreateActiveStudentUserResponse{}
 
 	if err := ctx.BindJSON(req); err != nil {
 		ctx.JSON(200, "bind err")
@@ -23,13 +31,14 @@ func (sc *StudentController) Create(ctx c.Context) {
 		ctx.JSON(200, "to model Err")
 		return 
 	}
-	registeredStudent, err := sc.Interactor.Register(ctx, reqModel)
+	acquired, err := sc.Interactor.Register(ctx, reqModel)
 	if err != nil {
 		ctx.JSON(200, err)
 		return 
 	}
-	ctx.JSON(200, registeredStudent)
-	return
+	res.Result = &response.ActiveStudentUserResult{Student: sc.convertActiveStudentToDTO(acquired)}
+	ctx.JSON(200, res)
+
 }
 
 func CreateFormToModel(ctx c.Context, req *request.ActiveStudentCreateRequest) (*models.ActiveStudentUser, error) {
@@ -57,6 +66,7 @@ func CreateFormToModel(ctx c.Context, req *request.ActiveStudentCreateRequest) (
 		req.Name,
 		auth,
 		wallet,
+		types.INITIAL_REVISION,
 		time.Time{},
 		time.Time{},
 	)

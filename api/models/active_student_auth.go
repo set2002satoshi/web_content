@@ -57,3 +57,20 @@ func (s *ActiveStudentAuth) setStudentId(id int) error {
 	s.ActiveStudentUserId = issuedStudentId
 	return nil
 }
+
+
+func (s *ActiveStudentAuth) GetActiveStudentAuthId() types.IDENTIFICATION {
+	return s.ActiveStudentAuthId
+}
+
+func (s *ActiveStudentAuth) GetEmail() string {
+	return s.Email
+}
+
+func (s *ActiveStudentAuth) GetPassword() []byte {
+	return s.Password
+}
+
+func (s *ActiveStudentAuth) GetStudentId() types.IDENTIFICATION {
+	return s.ActiveStudentUserId
+}
