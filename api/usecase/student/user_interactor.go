@@ -11,15 +11,6 @@ type StudentInteractor struct {
 	Student StudentRepository
 }
 
-func (si *StudentInteractor) Register(ctx c.Context, obj *models.ActiveStudentUser) (*models.ActiveStudentUser, error) {
-	db := si.DB.Connect()
-	created, err := si.Student.Create(db, obj)
-	if err != nil {
-		return nil, err
-	}
-	return created, nil	
-}
-
 
 func (si *StudentInteractor) FindById(ctx c.Context, id int) (*models.ActiveStudentUser, error) {
 	db := si.DB.Connect()
@@ -28,4 +19,24 @@ func (si *StudentInteractor) FindById(ctx c.Context, id int) (*models.ActiveStud
 		return nil, err
 	}
 	return Acquired, nil
+}
+
+func (si *StudentInteractor) FindAll(ctx c.Context) ([]*models.ActiveStudentUser, error) {
+	db := si.DB.Connect()
+	Acquired, err := si.Student.FindAll(db)
+	if err != nil {
+		return nil, err
+	}
+	return Acquired, nil
+}
+
+
+
+func (si *StudentInteractor) Register(ctx c.Context, obj *models.ActiveStudentUser) (*models.ActiveStudentUser, error) {
+	db := si.DB.Connect()
+	created, err := si.Student.Create(db, obj)
+	if err != nil {
+		return nil, err
+	}
+	return created, nil	
 }

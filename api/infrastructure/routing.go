@@ -38,6 +38,7 @@ func (r *Routing) setRouting() {
 	{
 		student.POST("/create",func(c *gin.Context) {studentController.Create(c)})
 		student.POST("/find/byId", func(c *gin.Context) {studentController.FindById(c)})
+		student.POST("/find/all", func(c *gin.Context) {studentController.FindAll(c)})
 	}
 
 
