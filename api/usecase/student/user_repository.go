@@ -7,6 +7,7 @@ import (
 )
 
 type StudentRepository interface {
-	Create(db *gorm.DB, obj *models.ActiveStudentUser) (*models.ActiveStudentUser, error)
 	FindById(db *gorm.DB, id int) (*models.ActiveStudentUser, error)
+	FindAll(db *gorm.DB) ([]*	models.ActiveStudentUser, error)
+	Create(db *gorm.DB, obj *models.ActiveStudentUser) (*models.ActiveStudentUser, error)
 }
