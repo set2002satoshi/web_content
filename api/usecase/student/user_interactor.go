@@ -19,3 +19,13 @@ func (si *StudentInteractor) Register(ctx c.Context, obj *models.ActiveStudentUs
 	}
 	return created, nil	
 }
+
+
+func (si *StudentInteractor) FindById(ctx c.Context, id int) (*models.ActiveStudentUser, error) {
+	db := si.DB.Connect()
+	Acquired, err := si.Student.FindById(db, id)
+	if err != nil {
+		return nil, err
+	}
+	return Acquired, nil
+}

@@ -16,3 +16,13 @@ func (repo *StudentRepository) Create(db *gorm.DB, obj *models.ActiveStudentUser
 	}
 	return obj, nil
 }
+
+
+func (repo *StudentRepository) FindById(db *gorm.DB, id int) (*models.ActiveStudentUser, error) {
+	var student *models.ActiveStudentUser
+	result := db.Where("active_student_user_id = ?", id).Preload("Wallet").Preload("ActiveAuth").Find(&student)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return student, nil
+}
