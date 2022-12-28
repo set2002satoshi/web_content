@@ -12,7 +12,7 @@ type ActiveStudentUser struct {
 	Class               string               `gorm:"max:4"`
 	Name                string               `gorm:"max:16"`
 	Wallet              *ActiveWallet        `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	ActiveAuth          *ActiveStudentAuth   `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Login               *ActiveLogin         `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	Revision            types.REVISION
 	CreatedAt           time.Time
 	UpdatedAt           time.Time
@@ -22,7 +22,7 @@ func NewActiveStudentUser(
 	id int,
 	class,
 	name string,
-	auth *ActiveStudentAuth,
+	auth *ActiveLogin,
 	wallet *ActiveWallet,
 	revision types.REVISION,
 	created_at,
@@ -33,7 +33,7 @@ func NewActiveStudentUser(
 	err = errors.Combine(err, au.setActiveStudentUserId(id))
 	err = errors.Combine(err, au.setClass(class))
 	err = errors.Combine(err, au.setName(name))
-	err = errors.Combine(err, au.setActiveAuth(auth))
+	err = errors.Combine(err, au.setLogin(auth))
 	err = errors.Combine(err, au.setWallet(wallet))
 	err = errors.Combine(err, au.setRevision(revision))
 	err = errors.Combine(err, au.setCreatedAt(created_at))
@@ -60,8 +60,8 @@ func (au *ActiveStudentUser) setName(name string) error {
 	return nil
 }
 
-func (au *ActiveStudentUser) setActiveAuth(obj *ActiveStudentAuth) error {
-	au.ActiveAuth = obj
+func (au *ActiveStudentUser) setLogin(obj *ActiveLogin) error {
+	au.Login = obj
 	return nil
 }
 
@@ -98,8 +98,8 @@ func (au *ActiveStudentUser) GetName() string {
 	return au.Name
 }
 
-func (au *ActiveStudentUser) GetActiveAuth() *ActiveStudentAuth {
-	return au.ActiveAuth
+func (au *ActiveStudentUser) GetLogin() *ActiveLogin {
+	return au.Login
 
 }
 

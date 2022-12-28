@@ -58,11 +58,10 @@ func (db *DB) DBInit() {
 	DBEngine := db.Connect()
 
 	var err error
-	err = errors.Combine(err, DBEngine.AutoMigrate(&models.ActiveStudentAuth{}))
+	err = errors.Combine(err, DBEngine.AutoMigrate(&models.ActiveLogin{}))
 	err = errors.Combine(err, DBEngine.AutoMigrate(&models.ActiveWallet{}))
 	err = errors.Combine(err, DBEngine.AutoMigrate(&models.ActiveStudentUser{}))
-	
-	
+
 	if err != nil {
 		log.Fatalln("err:", err)
 	}

@@ -11,5 +11,5 @@ type StudentRepository interface {
 	FetchEmailNumber(db *gorm.DB, email string) (int64, error)
 	FindAll(db *gorm.DB) ([]*models.ActiveStudentUser, error)
 	Create(db *gorm.DB, obj *models.ActiveStudentUser) (*models.ActiveStudentUser, error)
-	Delete(db *gorm.DB, id int) error
+	DeleteById(db *gorm.DB, id int) error
 }

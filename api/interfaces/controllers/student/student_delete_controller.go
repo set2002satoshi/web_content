@@ -13,7 +13,7 @@ func (sc *StudentController) Delete(ctx c.Context) {
 		ctx.JSON(200, "bind err")
 		return
 	}
-	err := sc.Interactor.Delete(req.Id)
+	err := sc.Interactor.DeleteById(req.Id)
 	if err != nil {
 		ctx.JSON(200, err)
 		return

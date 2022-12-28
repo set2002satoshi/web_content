@@ -6,43 +6,43 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type ActiveStudentAuth struct {
-	ActiveStudentAuthId types.IDENTIFICATION `gorm:"primaryKey"`
+type ActiveLogin struct {
+	ActiveLoginId types.IDENTIFICATION `gorm:"primaryKey"`
 	ActiveStudentUserId types.IDENTIFICATION
 	Email               string `gorm:"unique;not null"`
 	Password            []byte `gorm:"not null"`
 }
 
-func NewActiveStudentAuth(
+func NewActiveLogin(
 	id int,
 	studentId int,
 	email string,
 	password string,
-) (*ActiveStudentAuth, error) {
-	as := &ActiveStudentAuth{}
+) (*ActiveLogin, error) {
+	as := &ActiveLogin{}
 	var err error
-	err = errors.Combine(err, as.setActiveStudentAuthId(id))
+	err = errors.Combine(err, as.setActiveLoginId(id))
 	err = errors.Combine(err, as.setStudentId(studentId))
 	err = errors.Combine(err, as.setEmail(email))
 	err = errors.Combine(err, as.setPassword(password))
 	return as, err
 }
 
-func (s *ActiveStudentAuth) setActiveStudentAuthId(id int) error {
+func (s *ActiveLogin) setActiveLoginId(id int) error {
 	issuedStudentId, err := types.NewIDENTIFICATION(id)
 	if err != nil {
 		return err
 	}
-	s.ActiveStudentAuthId = issuedStudentId
+	s.ActiveLoginId = issuedStudentId
 	return nil
 }
 
-func (s *ActiveStudentAuth) setEmail(email string) error {
+func (s *ActiveLogin) setEmail(email string) error {
 	s.Email = email
 	return nil
 }
 
-func (s *ActiveStudentAuth) setPassword(password string) error {
+func (s *ActiveLogin) setPassword(password string) error {
 	pass, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	if err != nil {
 		return err
@@ -51,7 +51,7 @@ func (s *ActiveStudentAuth) setPassword(password string) error {
 	return nil
 }
 
-func (s *ActiveStudentAuth) setStudentId(id int) error {
+func (s *ActiveLogin) setStudentId(id int) error {
 	issuedStudentId, err := types.NewIDENTIFICATION(id)
 	if err != nil {
 		return err
@@ -60,18 +60,18 @@ func (s *ActiveStudentAuth) setStudentId(id int) error {
 	return nil
 }
 
-func (s *ActiveStudentAuth) GetActiveStudentAuthId() types.IDENTIFICATION {
-	return s.ActiveStudentAuthId
+func (s *ActiveLogin) GetActiveLoginId() types.IDENTIFICATION {
+	return s.ActiveLoginId
 }
 
-func (s *ActiveStudentAuth) GetEmail() string {
+func (s *ActiveLogin) GetEmail() string {
 	return s.Email
 }
 
-func (s *ActiveStudentAuth) GetPassword() []byte {
+func (s *ActiveLogin) GetPassword() []byte {
 	return s.Password
 }
 
-func (s *ActiveStudentAuth) GetStudentId() types.IDENTIFICATION {
+func (s *ActiveLogin) GetStudentId() types.IDENTIFICATION {
 	return s.ActiveStudentUserId
 }

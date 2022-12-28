@@ -44,7 +44,7 @@ func (sc *StudentController) Create(ctx c.Context) {
 func CreateFormToModel(ctx c.Context, req *request.ActiveStudentCreateRequest) (*models.ActiveStudentUser, error) {
 
 	coin := 0
-	auth, err := models.NewActiveStudentAuth(
+	auth, err := models.NewActiveLogin(
 		types.INITIAL_ID,
 		types.INITIAL_ID,
 		req.Email,
