@@ -33,7 +33,7 @@ func (sc *StudentController) Create(ctx c.Context) {
 	}
 	acquired, err := sc.Interactor.Register(ctx, reqModel)
 	if err != nil {
-		ctx.JSON(200, err)
+		ctx.JSON(200, err.Error())
 		return 
 	}
 	res.Result = &response.ActiveStudentUserResult{Student: sc.convertActiveStudentToDTO(acquired)}
@@ -45,6 +45,7 @@ func CreateFormToModel(ctx c.Context, req *request.ActiveStudentCreateRequest) (
 
 	coin := 0
 	auth, err := models.NewActiveStudentAuth(
+		types.INITIAL_ID,
 		types.INITIAL_ID,
 		req.Email,
 		req.Password,

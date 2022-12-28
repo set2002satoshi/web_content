@@ -7,20 +7,22 @@ import (
 )
 
 type ActiveStudentAuth struct {
-	ActiveStudentAuthId   types.IDENTIFICATION `gorm:"primaryKey"`
-	Email               string               `gorm:"unique;not null"`
-	Password            []byte               `gorm:"not null"`
+	ActiveStudentAuthId types.IDENTIFICATION `gorm:"primaryKey"`
 	ActiveStudentUserId types.IDENTIFICATION
+	Email               string `gorm:"unique;not null"`
+	Password            []byte `gorm:"not null"`
 }
 
 func NewActiveStudentAuth(
 	id int,
+	studentId int,
 	email string,
 	password string,
 ) (*ActiveStudentAuth, error) {
 	as := &ActiveStudentAuth{}
 	var err error
-	err = errors.Combine(err, as.setStudentId(id))
+	err = errors.Combine(err, as.setActiveStudentAuthId(id))
+	err = errors.Combine(err, as.setStudentId(studentId))
 	err = errors.Combine(err, as.setEmail(email))
 	err = errors.Combine(err, as.setPassword(password))
 	return as, err
@@ -57,7 +59,6 @@ func (s *ActiveStudentAuth) setStudentId(id int) error {
 	s.ActiveStudentUserId = issuedStudentId
 	return nil
 }
-
 
 func (s *ActiveStudentAuth) GetActiveStudentAuthId() types.IDENTIFICATION {
 	return s.ActiveStudentAuthId

@@ -32,9 +32,10 @@ func (sc *StudentController) convertActiveStudentToDTO(obj *models.ActiveStudent
 			Coin:                obj.GetWallet().GetCoin(),
 		},
 		ActiveAuth: &models.ActiveStudentAuth{
+			ActiveStudentAuthId: obj.GetActiveAuth().GetActiveStudentAuthId(),
+			ActiveStudentUserId: obj.GetActiveAuth().GetStudentId(),
 			Email:               obj.GetActiveAuth().GetEmail(),
 			Password:            obj.GetActiveAuth().GetPassword(),
-			ActiveStudentUserId: obj.GetActiveAuth().GetStudentId(),
 		},
 		Option: response.Options{
 			Revision:  int(obj.GetRevision()),
@@ -57,9 +58,10 @@ func (sc *StudentController) convertActiveStudentToDTOs(obj []*models.ActiveStud
 				Coin:                el.GetWallet().GetCoin(),
 			},
 			ActiveAuth: &models.ActiveStudentAuth{
+				ActiveStudentAuthId: el.GetActiveAuth().GetActiveStudentAuthId(),
+				ActiveStudentUserId: el.GetActiveAuth().GetStudentId(),
 				Email:               el.GetActiveAuth().GetEmail(),
 				Password:            el.GetActiveAuth().GetPassword(),
-				ActiveStudentUserId: el.GetActiveAuth().GetStudentId(),
 			},
 			Option: response.Options{
 				Revision:  int(el.GetRevision()),

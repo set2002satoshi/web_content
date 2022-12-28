@@ -11,8 +11,8 @@ type ActiveStudentUser struct {
 	ActiveStudentUserId types.IDENTIFICATION `gorm:"primaryKey"`
 	Class               string               `gorm:"max:4"`
 	Name                string               `gorm:"max:16"`
-	Wallet              *ActiveWallet
-	ActiveAuth          *ActiveStudentAuth
+	Wallet              *ActiveWallet        `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	ActiveAuth          *ActiveStudentAuth   `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	Revision            types.REVISION
 	CreatedAt           time.Time
 	UpdatedAt           time.Time
@@ -85,14 +85,13 @@ func (au *ActiveStudentUser) setUpdatedAt(updated_at time.Time) error {
 	return nil
 }
 
-
 func (au *ActiveStudentUser) GetActiveStudentUserId() types.IDENTIFICATION {
 	return au.ActiveStudentUserId
 }
 
 func (au *ActiveStudentUser) GetClass() string {
 	return au.Class
-	
+
 }
 
 func (au *ActiveStudentUser) GetName() string {
@@ -101,7 +100,7 @@ func (au *ActiveStudentUser) GetName() string {
 
 func (au *ActiveStudentUser) GetActiveAuth() *ActiveStudentAuth {
 	return au.ActiveAuth
-	
+
 }
 
 func (au *ActiveStudentUser) GetWallet() *ActiveWallet {
