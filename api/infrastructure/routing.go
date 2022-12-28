@@ -1,6 +1,7 @@
 package infrastructure
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -36,14 +37,18 @@ func (r *Routing) setRouting() {
 
 	student := r.Gin.Group("/api")
 	{
-		student.POST("/create",func(c *gin.Context) {studentController.Create(c)})
 		student.POST("/find/byId", func(c *gin.Context) {studentController.FindById(c)})
 		student.POST("/find/all", func(c *gin.Context) {studentController.FindAll(c)})
+		student.POST("/create",func(c *gin.Context) {studentController.Create(c)})
+		student.POST("/delete", func(c *gin.Context) {studentController.Delete(c)})
 	}
 
 
 }
 
 func (r *Routing) Run() {
-	r.Gin.Run(r.Port)
+	err := r.Gin.Run(r.Port)
+	if err != nil {
+		log.Fatalln("err:", err)
+	}
 }

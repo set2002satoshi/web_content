@@ -1,7 +1,10 @@
 package infrastructure
 
 import (
+	"log"
+
 	"github.com/set2002satoshi/web_contents/api/models"
+	"github.com/set2002satoshi/web_contents/api/pkg/module/customs/errors"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -53,7 +56,14 @@ func (db *DB) Connect() *gorm.DB {
 
 func (db *DB) DBInit() {
 	DBEngine := db.Connect()
-	DBEngine.AutoMigrate(models.ActiveStudentAuth{})
-	DBEngine.AutoMigrate(models.ActiveWallet{})
-	DBEngine.AutoMigrate(models.ActiveStudentUser{})
+
+	var err error
+	err = errors.Combine(err, DBEngine.AutoMigrate(&models.ActiveLogin{}))
+	err = errors.Combine(err, DBEngine.AutoMigrate(&models.ActiveWallet{}))
+	err = errors.Combine(err, DBEngine.AutoMigrate(&models.ActiveStudentUser{}))
+
+	if err != nil {
+		log.Fatalln("err:", err)
+	}
+
 }

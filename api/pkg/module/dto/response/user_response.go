@@ -55,7 +55,7 @@ type (
 		Class               string               `gorm:"max:4"`
 		Name                string               `gorm:"max:16"`
 		Wallet              *models.ActiveWallet
-		ActiveAuth          *models.ActiveStudentAuth
+		Login          *models.ActiveLogin
 		Option              Options
 	}
 	HistoryUserEntity struct {

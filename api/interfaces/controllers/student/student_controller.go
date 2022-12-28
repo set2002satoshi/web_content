@@ -2,7 +2,9 @@ package student
 
 import (
 	database "github.com/set2002satoshi/web_contents/api/interfaces/database"
+	DBlogin "github.com/set2002satoshi/web_contents/api/interfaces/database/login"
 	DBstudent "github.com/set2002satoshi/web_contents/api/interfaces/database/student"
+	DBwallet "github.com/set2002satoshi/web_contents/api/interfaces/database/wallet"
 	"github.com/set2002satoshi/web_contents/api/models"
 	"github.com/set2002satoshi/web_contents/api/pkg/module/dto/response"
 	usecase "github.com/set2002satoshi/web_contents/api/usecase/student"
@@ -15,8 +17,10 @@ type StudentController struct {
 func NewStudentController(db database.DB) *StudentController {
 	return &StudentController{
 		Interactor: usecase.StudentInteractor{
-			DB:      &database.DBRepository{DB: db},
-			Student: &DBstudent.StudentRepository{},
+			DB:          &database.DBRepository{DB: db},
+			StudentRepo: &DBstudent.StudentRepository{},
+			WalletRepo:  &DBwallet.WalletRepository{},
+			LoginRepo:   &DBlogin.LoginRepository{},
 		},
 	}
 }
@@ -31,10 +35,11 @@ func (sc *StudentController) convertActiveStudentToDTO(obj *models.ActiveStudent
 			ActiveStudentUserId: obj.GetWallet().GetActiveStudentUserId(),
 			Coin:                obj.GetWallet().GetCoin(),
 		},
-		ActiveAuth: &models.ActiveStudentAuth{
-			Email:               obj.GetActiveAuth().GetEmail(),
-			Password:            obj.GetActiveAuth().GetPassword(),
-			ActiveStudentUserId: obj.GetActiveAuth().GetStudentId(),
+		Login: &models.ActiveLogin{
+			ActiveLoginId:       obj.GetLogin().GetActiveLoginId(),
+			ActiveStudentUserId: obj.GetLogin().GetStudentId(),
+			Email:               obj.GetLogin().GetEmail(),
+			Password:            obj.GetLogin().GetPassword(),
 		},
 		Option: response.Options{
 			Revision:  int(obj.GetRevision()),
@@ -56,10 +61,11 @@ func (sc *StudentController) convertActiveStudentToDTOs(obj []*models.ActiveStud
 				ActiveStudentUserId: el.GetWallet().GetActiveStudentUserId(),
 				Coin:                el.GetWallet().GetCoin(),
 			},
-			ActiveAuth: &models.ActiveStudentAuth{
-				Email:               el.GetActiveAuth().GetEmail(),
-				Password:            el.GetActiveAuth().GetPassword(),
-				ActiveStudentUserId: el.GetActiveAuth().GetStudentId(),
+			Login: &models.ActiveLogin{
+				ActiveLoginId:       el.GetLogin().GetActiveLoginId(),
+				ActiveStudentUserId: el.GetLogin().GetStudentId(),
+				Email:               el.GetLogin().GetEmail(),
+				Password:            el.GetLogin().GetPassword(),
 			},
 			Option: response.Options{
 				Revision:  int(el.GetRevision()),
