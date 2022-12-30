@@ -7,7 +7,7 @@ import (
 )
 
 type ActiveLogin struct {
-	ActiveLoginId types.IDENTIFICATION `gorm:"primaryKey"`
+	ActiveLoginId       types.IDENTIFICATION `gorm:"primaryKey"`
 	ActiveStudentUserId types.IDENTIFICATION
 	Email               string `gorm:"unique;not null"`
 	Password            []byte `gorm:"not null"`

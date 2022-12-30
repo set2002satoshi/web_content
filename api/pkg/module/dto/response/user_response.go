@@ -26,6 +26,13 @@ type (
 		CodeErr error  `json:"code"`
 		MsgErr  string `json:"msg"`
 	}
+
+	UpdateActiveStudentUserResponse struct {
+		Result *ActiveStudentUserResult `json:"results"`
+
+		CodeErr error `json:"code"`
+		MsgErr string `json:"msg"`
+	}
 )
 
 type (

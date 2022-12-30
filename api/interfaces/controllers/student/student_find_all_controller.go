@@ -14,14 +14,13 @@ type (
 func (sc *StudentController) FindAll(ctx c.Context) {
 
 	res := &FindAllActiveStudentUserResponse{}
-	
+
 	acquired, err := sc.Interactor.FindAll(ctx)
 	if err != nil {
 		ctx.JSON(200, err)
-		return 
+		return
 	}
 
 	res.Result = &response.ActiveStudentUserResults{Students: sc.convertActiveStudentToDTOs(acquired)}
 	ctx.JSON(200, res)
 }
-
