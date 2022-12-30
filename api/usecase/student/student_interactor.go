@@ -93,6 +93,7 @@ func (si *StudentInteractor) Update(ctx c.Context, reqModel *models.ActiveStuden
 		reqModel.GetName(),
 		currentStudent.GetLogin(),
 		currentStudent.GetWallet(),
+		nil,
 		currentStudent.GetRevision(),
 		currentStudent.GetCreatedAt(),
 		time.Time{},

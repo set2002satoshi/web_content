@@ -11,6 +11,7 @@ type ActiveStudentUser struct {
 	ActiveStudentUserId types.IDENTIFICATION `gorm:"primaryKey"`
 	Class               string               `gorm:"max:4"`
 	Name                string               `gorm:"max:16"`
+	MyTicket            []ActiveMyTicket     `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	Wallet              *ActiveWallet        `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	Login               *ActiveLogin         `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	Revision            types.REVISION
@@ -24,6 +25,7 @@ func NewActiveStudentUser(
 	name string,
 	login *ActiveLogin,
 	wallet *ActiveWallet,
+	myTicket []ActiveMyTicket,
 	revision types.REVISION,
 	created_at,
 	updated_at time.Time,
@@ -35,6 +37,7 @@ func NewActiveStudentUser(
 	err = errors.Combine(err, au.setName(name))
 	err = errors.Combine(err, au.setLogin(login))
 	err = errors.Combine(err, au.setWallet(wallet))
+	err = errors.Combine(err, au.setMyTicket(myTicket))
 	err = errors.Combine(err, au.setRevision(revision))
 	err = errors.Combine(err, au.setCreatedAt(created_at))
 	err = errors.Combine(err, au.setUpdatedAt(updated_at))
@@ -67,6 +70,11 @@ func (au *ActiveStudentUser) setLogin(obj *ActiveLogin) error {
 
 func (au *ActiveStudentUser) setWallet(obj *ActiveWallet) error {
 	au.Wallet = obj
+	return nil
+}
+
+func (au *ActiveStudentUser) setMyTicket(obj []ActiveMyTicket) error {
+	au.MyTicket = obj
 	return nil
 }
 

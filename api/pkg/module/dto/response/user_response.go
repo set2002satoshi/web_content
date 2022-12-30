@@ -30,8 +30,8 @@ type (
 	UpdateActiveStudentUserResponse struct {
 		Result *ActiveStudentUserResult `json:"results"`
 
-		CodeErr error `json:"code"`
-		MsgErr string `json:"msg"`
+		CodeErr error  `json:"code"`
+		MsgErr  string `json:"msg"`
 	}
 )
 
@@ -62,7 +62,8 @@ type (
 		Class               string               `gorm:"max:4"`
 		Name                string               `gorm:"max:16"`
 		Wallet              *models.ActiveWallet
-		Login          *models.ActiveLogin
+		Login               *models.ActiveLogin
+		MyTicket            []*models.ActiveMyTicket
 		Option              Options
 	}
 	HistoryUserEntity struct {
