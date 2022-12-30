@@ -61,12 +61,17 @@ func CreateFormToModel(ctx c.Context, req *request.ActiveStudentCreateRequest) (
 	if err != nil {
 		return nil, err
 	}
+	
+	if err != nil {
+		return nil, err
+	}
 	return models.NewActiveStudentUser(
 		types.INITIAL_ID,
 		req.Class,
 		req.Name,
 		auth,
 		wallet,
+		[]models.ActiveMyTicket{},
 		types.INITIAL_REVISION,
 		time.Time{},
 		time.Time{},

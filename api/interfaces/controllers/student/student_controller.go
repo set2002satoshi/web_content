@@ -41,6 +41,7 @@ func (sc *StudentController) convertActiveStudentToDTO(obj *models.ActiveStudent
 			Email:               obj.GetLogin().GetEmail(),
 			Password:            obj.GetLogin().GetPassword(),
 		},
+		MyTicket: []*models.ActiveMyTicket{},
 		Option: response.Options{
 			Revision:  int(obj.GetRevision()),
 			CreatedAt: obj.GetCreatedAt(),

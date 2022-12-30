@@ -60,8 +60,10 @@ func (db *DB) DBInit() {
 	var err error
 	err = errors.Combine(err, DBEngine.AutoMigrate(&models.ActiveLogin{}))
 	err = errors.Combine(err, DBEngine.AutoMigrate(&models.ActiveWallet{}))
+	err = errors.Combine(err, DBEngine.AutoMigrate(&models.ActiveMyTicket{}))
+	err = errors.Combine(err, DBEngine.AutoMigrate(&models.ActiveOrder{}))
+	err = errors.Combine(err, DBEngine.AutoMigrate(&models.ActiveFood{}))
 	err = errors.Combine(err, DBEngine.AutoMigrate(&models.ActiveStudentUser{}))
-
 	if err != nil {
 		log.Fatalln("err:", err)
 	}
