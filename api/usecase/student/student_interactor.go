@@ -3,6 +3,7 @@ package student
 import (
 	"errors"
 	"fmt"
+	"time"
 
 	c "github.com/set2002satoshi/web_contents/api/interfaces/controllers"
 	"github.com/set2002satoshi/web_contents/api/models"
@@ -70,6 +71,48 @@ func (si *StudentInteractor) DeleteById(id int) error {
 		return commitResult.Error
 	}
 	return nil
+}
+
+func (si *StudentInteractor) Update(ctx c.Context, reqModel *models.ActiveStudentUser) (*models.ActiveStudentUser, error) {
+	tx := si.DB.Begin()
+	currentStudent, err := si.StudentRepo.FindById(tx, int(reqModel.GetActiveStudentUserId()))
+	if err != nil {
+		return &models.ActiveStudentUser{}, errors.New("更新対象のデータが見つかりません")
+	}
+	if reqModel.GetRevision() != currentStudent.GetRevision() {
+		return &models.ActiveStudentUser{}, errors.New("改訂番号が一致しません")
+	}
+
+	if err := currentStudent.CountUpRevision(); err != nil {
+		return &models.ActiveStudentUser{}, errors.New("改訂番号の更新ができません")
+	}
+
+	studentWillBeUpdate, err := models.NewActiveStudentUser(
+		int(currentStudent.GetActiveStudentUserId()),
+		reqModel.GetClass(),
+		reqModel.GetName(),
+		currentStudent.GetLogin(),
+		currentStudent.GetWallet(),
+		currentStudent.GetRevision(),
+		currentStudent.GetCreatedAt(),
+		time.Time{},
+	)
+	if err != nil {
+		return nil, errors.New("新規models作成に失費")
+	}
+
+	updatedStudent, err := si.StudentRepo.Update(tx, studentWillBeUpdate)
+	if err != nil {
+		return &models.ActiveStudentUser{}, errors.New("更新処理に失敗")
+	}
+
+	commitErr := tx.Commit()
+	if commitErr.Error != nil {
+		tx.Rollback()
+		return &models.ActiveStudentUser{}, errors.New("トランザクションのコミットエラー")
+	}
+
+	return updatedStudent, nil
 }
 
 func (si *StudentInteractor) isUniqueEmail(db *gorm.DB, email string) bool {

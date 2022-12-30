@@ -22,7 +22,7 @@ func NewActiveStudentUser(
 	id int,
 	class,
 	name string,
-	auth *ActiveLogin,
+	login *ActiveLogin,
 	wallet *ActiveWallet,
 	revision types.REVISION,
 	created_at,
@@ -33,7 +33,7 @@ func NewActiveStudentUser(
 	err = errors.Combine(err, au.setActiveStudentUserId(id))
 	err = errors.Combine(err, au.setClass(class))
 	err = errors.Combine(err, au.setName(name))
-	err = errors.Combine(err, au.setLogin(auth))
+	err = errors.Combine(err, au.setLogin(login))
 	err = errors.Combine(err, au.setWallet(wallet))
 	err = errors.Combine(err, au.setRevision(revision))
 	err = errors.Combine(err, au.setCreatedAt(created_at))
@@ -117,4 +117,9 @@ func (au *ActiveStudentUser) GetCreatedAt() time.Time {
 
 func (au *ActiveStudentUser) GetUpdatedAt() time.Time {
 	return au.UpdatedAt
+}
+
+func (au *ActiveStudentUser) CountUpRevision() error {
+	au.Revision += types.REVISION(1)
+	return nil
 }

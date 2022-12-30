@@ -23,18 +23,18 @@ func (sc *StudentController) Create(ctx c.Context) {
 
 	if err := ctx.BindJSON(req); err != nil {
 		ctx.JSON(200, "bind err")
-		return 
+		return
 	}
 
 	reqModel, err := CreateFormToModel(ctx, req)
 	if err != nil {
 		ctx.JSON(200, "to model Err")
-		return 
+		return
 	}
 	acquired, err := sc.Interactor.Register(ctx, reqModel)
 	if err != nil {
 		ctx.JSON(200, err.Error())
-		return 
+		return
 	}
 	res.Result = &response.ActiveStudentUserResult{Student: sc.convertActiveStudentToDTO(acquired)}
 	ctx.JSON(200, res)

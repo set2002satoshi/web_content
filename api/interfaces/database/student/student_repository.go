@@ -42,6 +42,16 @@ func (repo *StudentRepository) Create(db *gorm.DB, obj *models.ActiveStudentUser
 	return obj, nil
 }
 
+
+func (repo *StudentRepository) Update(tx *gorm.DB, obj *models.ActiveStudentUser) (*models.ActiveStudentUser, error) {
+	result := tx.Select("Class", "Name", "Revision").Updates(&obj)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return obj, nil
+}
+
+
 func (repo *StudentRepository) DeleteById(db *gorm.DB, id int) error {
 	var student *models.ActiveStudentUser
 	result := db.Unscoped().Delete(&student, id)
