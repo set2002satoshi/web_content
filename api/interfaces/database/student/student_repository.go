@@ -11,9 +11,9 @@ type StudentRepository struct{}
 
 func (repo *StudentRepository) FindById(db *gorm.DB, id int) (*models.ActiveStudentUser, error) {
 	var student *models.ActiveStudentUser
-	result := db.Where("active_student_user_id = ?", id).Preload("Wallet").Preload("Login").Find(&student)
+	result := db.Where("active_student_user_id = ?", id).Preload("Wallet").Preload("Login").First(&student)
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, errors.New("対象のデータが見つかりませんでした")
 	}
 	return student, nil
 }

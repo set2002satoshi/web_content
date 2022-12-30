@@ -2,6 +2,7 @@ package student
 
 import (
 	c "github.com/set2002satoshi/web_contents/api/interfaces/controllers"
+	"github.com/set2002satoshi/web_contents/api/models"
 	"github.com/set2002satoshi/web_contents/api/pkg/module/dto/request"
 	"github.com/set2002satoshi/web_contents/api/pkg/module/dto/response"
 )
@@ -23,7 +24,7 @@ func (sc *StudentController) FindById(ctx c.Context) {
 	}
 	acquired, err := sc.Interactor.FindById(ctx, req.Id)
 	if err != nil {
-		ctx.JSON(200, err)
+		ctx.JSON(200, &models.ActiveStudentUser{})
 		return
 	}
 
